@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+*{
+    padding: 0;
+    margin: 0;
+
+
+}
+
+body{
+    background-color: #ffffff;}
+
+header{
+
+width: 100%;
+height: 40px;
+border: 1px solid rgb(156, 93, 93);
+background-color: rgb(73, 146, 25);
+display: flex;
+justify-content: space-around;
+align-items: center;
+
+}
+
+
+header>div>a{
+
+    text-decoration: none;
+    color: red;
+    border: 1px solid blue;
+    padding: 5px;
+    border-radius: 8px;
+
+}
+
+
+#toggle{
+    position: fixed;
+    right: 10px;
+    top: 55px;
+    padding: 8px;
+    border: 2px solid blue;
+    border-radius: 5px;
+    font-family: cursive;
+    background-color: yellow;
+}
+
+    </style>
+</head>
+<body>
+<header>
+    <div><img src="" alt="study logo"></div>
+    <div><a href="">Home</a></div>
+    <div><a href="">Create Notes</a></div>
+    <div><a href="">View Notes</a></div>
+    <div><a href="">Settings</a></div>
+ </header>
+
+
+
+ <section id="one">
+
+<h4 style="text-align: center;margin: 20px;background-color: blue;">"Welcome to the Collaborative Study Notes App!"</h4>
+
+
+<button id="toggle">Dark Mode</button>
+
+ </section>
+
+
+<h1>"Create New study Note"</h1>
+
+<div style="border: 2px solid red; width: 80%; margin: auto; padding: 40px;border-radius: 30px;">
+
+    <form action="">
+
+        <fieldset>
+        
+        <legend>Study Form</legend>
+        
+        <label for="title">Title</label>
+        <input type="text" id="title" required  name="title">
+        
+        <hr style="background-color: red;">
+        
+        <label for="des">Description</label>
+        <input type="text" required  id="des" name="descri">
+        
+        
+        
+        <hr>
+        
+        <div style="margin: 10px;">
+            <label for="one">one</label>
+        <input type="checkbox" id="one">
+            <label for="two">two</label>
+            <input type="checkbox" id="two">
+            <label for="three">three</label>
+            <input type="checkbox" id="three">
+            <label for="four">four</label>
+            <input type="checkbox" id="four">
+        
+        </div>
+        
+        <div style="margin: 20px;">
+        
+            <select name="sel">
+                <option value="high" >High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+                
+                </select>
+        
+        </div>
+
+        <div>
+
+<label for="image">please put your image url</label>
+<input type="text" name="img">
+
+        </div>
+        
+        <button type="submit">Click</button>
+        </fieldset>
+        
+        </form> 
+
+</div>
+
+<div id="container"></div>
+
+
+</body>
+</html>
+
+<script>
+    // Dark Mode Toggle
+let firstbutton=document.getElementById("toggle")
+
+firstbutton.addEventListener("click",f)
+
+let bag=true;
+function f(){
+
+if(bag){
+    document.body.style.backgroundColor="#939496"
+    firstbutton.innerText="Light Mode"
+    bag=false
+}else{
+    document.body.style.backgroundColor="#ffffff"
+    firstbutton.innerText="Dark Mode"
+    bag=true
+
+}
+}
+
+
+
+let myform=document.querySelector("form")
+
+myform.addEventListener("submit" , function(event){
+
+event.preventDefault()
+
+console.log("click")
+  let formData = new FormData(myform)
+
+let title=formData.get("title")
+let des=formData.get("descri")
+let sel=formData.get("sel")
+let image=formData.get("img")
+
+
+ async function one(){
+    
+    let fet=await fetch("https://movieproject-33d07-default-rtdb.asia-southeast1.firebasedatabase.app/movies.json",{
+        method:"POST",
+        headers:{
+            "content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            "Title":title,
+            "img":image,
+            "selt":sel,
+            "description":des
+
+        })
+    })
+
+
+    let con=document.getElementById("container")
+    con.innerHTML=""
+    if(fet.ok){
+        let div=document.createElement("h4")
+        div.innerText="yes over data is succuful send"
+
+        con.append(div)
+    }
+    let data= await fet.json()
+    console.log(fet)
+
+}
+
+
+  one()  
+})
+
+
+
+
+</script>
